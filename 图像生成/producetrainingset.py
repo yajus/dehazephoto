@@ -51,6 +51,7 @@ for filename in namen:
             # GTimg[:,:,:,k]=imgpatch
             # print(imgpatch)
             hazepatch = imgpatch *t[k] + alpha * (1-t[k])
+            # allhazepathch=imgpatch *t[0] + alpha * (1-t[0])
             # hazepatch=hazepatch*255
             # print(hazepatch)
 
@@ -60,14 +61,18 @@ for filename in namen:
             # GTimg1=np.append(GTimg1,hazepatch,axis=1)
             if (j == 0):
                 GTimg1 = np.array(hazepatch)
+                # GTimgonet1 = np.array(allhazepathch)
             else:
                 GTimg1 = np.append(GTimg1, hazepatch, axis=1)
+                # GTimgonet1 = np.append(GTimgonet1, hazepatch, axis=1)
             #scipy.misc.imsave(('./hazefree/img' + str(k) + '.bmp'), imgpatch)
             #scipy.misc.imsave(('./haze/img' + str(k) + '.bmp'), hazepatch)
             k = k + 1
         if (i == 0):
+            # GTimgonet=np.array(GTimgonet1)
             GTimg = np.array(GTimg1)
         else:
+            # GTimgonet = np.append(GTimgonet, GTimgonet1, axis=0)
             GTimg = np.append(GTimg, GTimg1, axis=0)
 
 
@@ -86,6 +91,8 @@ for filename in namen:
     # print(test.shape)
     # plt.show()
 
+
+
     dehazeblock = GTimg.reshape([-1, 16, 16, 3])
     print("GTIMGshape:", GTimg.shape)
 
@@ -95,6 +102,9 @@ for filename in namen:
     # create originptoto
     originphoto = np.array(I[0:patchsize * blockcount, 0:patchsize * blockcount, :])
     # 保存：
+    # 一个t值的图
+    plt.imsave('./onetphoto/' + str(indexnum) + '.png', originphoto * t[0] + alpha * (1 - t[0]))
+
     #训练前图片
     plt.imsave('./trainphotoorigin/' + str(indexnum) + '.png', originphoto)
     plt.imsave('./res/aaaa.png', originphoto)
